@@ -140,5 +140,5 @@ Se quiser evoluir ou contribuir — PRs são bem-vindos!
 </div>
 
 ## 📄 **Licença**
-Licenciado sob a MIT License.
+Copyright (c) 2025, Vitor Pacheco.
 Veja o arquivo `LICENSE`.
