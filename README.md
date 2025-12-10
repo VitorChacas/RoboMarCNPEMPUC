@@ -3,7 +3,7 @@
 
 ---
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 ![Status](https://img.shields.io/badge/Status-V5%20Stable-brightgreen)
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
 ![C++](https://img.shields.io/badge/Firmware-Arduino%20C++-orange)
