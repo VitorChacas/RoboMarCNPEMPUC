@@ -1,1 +1,64 @@
+# =========================================================
+# DEPENDÊNCIAS DO PROJETO - CONTROLE ROBÔ CNPEM
+# =========================================================
 
+## 1. DEPENDÊNCIAS DO FIRMWARE (ARDUINO / ESP8266)
+# -------------------------------------------------
+# Estas bibliotecas devem ser instaladas através do Gerenciador de Bibliotecas
+# do Arduino IDE (Sketch -> Include Library -> Manage Libraries).
+
+# CORE
+- ESP8266 Core for Arduino (Instalado via Boards Manager)
+
+# MOVIMENTO
+- AccelStepper:
+    Versão: >= 1.61
+    Autor: Mike McCauley
+    Descrição: Biblioteca principal para controle de motores de passo com aceleração e desaceleração.
+
+- MultiStepper:
+    Versão: >= 1.0 (Geralmente incluída no AccelStepper)
+    Autor: Mike McCauley
+    Descrição: Usada no V2 para mover múltiplos motores de forma coordenada (embora V5 use AccelStepper.run() direto).
+
+# ATUADORES
+- Servo:
+    Autor: Michael Margolis / Adafruit / ESP8266 Community
+    Descrição: Biblioteca padrão para controle de servos.
+
+# COMUNICAÇÃO (V5)
+- ESP8266WiFi:
+    Descrição: Biblioteca padrão para gerenciar a conexão WiFi (Access Point).
+- WiFiUdp:
+    Descrição: Biblioteca para implementar o servidor UDP (recepção de comandos).
+
+# PLATAFORMA (V3)
+- BlynkSimpleEsp8266 & WidgetTerminal:
+    Descrição: Usado apenas na versão V3 para controle via app/terminal Blynk.
+
+---
+
+## 2. DEPENDÊNCIAS DO SOFTWARE HOST (PYTHON)
+# ----------------------------------------
+# Para instalar, use o gerenciador de pacotes pip:
+# Exemplo: pip install pandas openpyxl
+
+# GUI
+- tkinter:
+    Descrição: Biblioteca padrão do Python para criação da interface gráfica (geralmente já instalada).
+
+# COMUNICAÇÃO
+- socket:
+    Descrição: Módulo padrão do Python para comunicação de rede (UDP).
+
+# PROCESSAMENTO DE DADOS (Leitura da Planilha)
+- pandas:
+    Descrição: Biblioteca essencial para manipulação e análise de dados (leitura de planilhas).
+- openpyxl:
+    Descrição: Engine necessário para o Pandas ler arquivos .xlsx (Excel).
+
+# UTILITÁRIOS
+- numpy:
+    Descrição: Biblioteca para computação numérica (usada indiretamente por Pandas).
+- math:
+    Descrição: Módulo padrão para funções matemáticas.
