@@ -1,1 +1,71 @@
+#include <ESP8266WiFi.h>
+#include <AccelStepper.h>
+#include <MultiStepper.h> // Mantida, mas a função FULL usa AccelStepper.run() direto
+#include <Servo.h>
+#include <cmath> // Para usar fabs (valor absoluto float)
 
+// ================== CONFIG GERAL DO ROBÔ ==================
+// ... (definições de pinos e objetos AccelStepper/Servo similares a V2/V5)
+// ... (Forward declarations de funções)
+
+// ================== NOVO EXECUTOR DE COMANDOS DE 10 VARIAVEIS ==================
+/** * @brief Executa um comando complexo de 10 variáveis no formato:
+ * c1 (servo1), c2 (servo2), sx, vx, sy, vy, sz, vz, sa, va
+ * Coordena 4 motores e 2 servos em um único passo.
+ */
+void executeFullCommand(int c1, int c2, long sx, float vx, long sy, float vy, long sz, float vz, long sa, float va) {
+    statusMessage = "Executando comando FULL...";
+
+    // 1. Controle das Canetas (Servos)
+    servo1.write(c1);
+    servo2.write(c2);
+
+    // 2. Configuração de Velocidades Máximas para o segmento (usando fabs para garantir positivo)
+    stepperX.setMaxSpeed(fabs(vx));
+    stepperA.setMaxSpeed(fabs(va));
+    // ... (Y e Z)
+
+    // 3. Configuração dos Movimentos (Destino Absoluto = Posição Atual + Passos)
+    long targetX = stepperX.currentPosition() + sx;
+    // ... (targetA, targetY, targetZ)
+    
+    // Configura o destino
+    stepperX.moveTo(targetX);
+    // ... (outros motores)
+
+    // 4. Execução do Movimento Coordenado (Loop principal)
+    digitalWrite(EN, LOW); // Habilita Drivers
+    bool running = true;
+    while(running) {
+        // A função run() retorna true se o motor ainda estiver se movendo.
+        // O OR (|) garante que o loop continue enquanto *qualquer* motor estiver rodando.
+        running = stepperX.run() | stepperY.run() | stepperZ.run() | stepperA.run();
+        yield(); // Permite que o ESP8266 lide com o WiFi
+    }
+    digitalWrite(EN, HIGH); // Desabilita Drivers
+
+    // 5. Atualiza variáveis de estado globais (opcional, AccelStepper mantém a posição)
+    // ...
+}
+
+// ================== PARSER DE COMANDOS (MODIFICADO) ==================
+void parseAndExecuteCommand(String command) {
+    // Lógica para detectar e separar os 10 valores do comando FULL:
+    if (command.startsWith("FULL:")) {
+        // ... (código para tokenizar a string de 10 valores separados por vírgula)
+        
+        // Chama o executor principal
+        executeFullCommand( 
+            (int)vals[0], // c1
+            (int)vals[1], // c2
+            (long)vals[2], // sx
+            vals[3], // vx
+            // ... (restante dos 10 valores)
+            vals[9] // va
+        );
+        return;
+    }
+    // ... (Lógica para comandos simples X[passos], S[angulo], etc.)
+}
+
+// ... (setup, loop e funções HTML)
